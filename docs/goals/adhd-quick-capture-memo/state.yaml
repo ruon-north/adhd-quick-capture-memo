@@ -8,7 +8,7 @@ goal:
   slug: "adhd-quick-capture-memo"
   kind: existing_plan
   tranche: "既存計画を検証し、4つの安全な縦断packageを実装・検証して、GitHub Pages配信と最終監査まで継続する"
-  status: active
+  status: done
   oracle:
     signal: "GitHub Pages上のHTTPS版PWAで、スマホ幅の即時記録、永続化、1件ずつの整理、検索、再発見、JSON復元、オフライン操作を完走でき、自動テストが合格する"
     cadence: "after each Worker package and at final audit"
@@ -76,7 +76,7 @@ visual_board:
     url: "http://goalbuddy.localhost:41737/adhd-quick-capture-memo/"
     command: "npx goalbuddy board docs/goals/adhd-quick-capture-memo"
 
-active_task: T999
+active_task: null
 
 tasks:
   - id: T001
@@ -454,9 +454,9 @@ tasks:
       approved_target: "https://github.com/ruon-north/adhd-quick-capture-memo"
 
   - id: T999
-    type: judge
-    assignee: Judge
-    status: active
+    type: pm
+    assignee: PM
+    status: done
     reasoning_hint: high
     objective: "全receiptと最新検証をoriginal outcomeとoracleへ対応付け、MVP全体が本当に完成したか最終監査する"
     inputs:
@@ -477,10 +477,31 @@ tasks:
       - "各Completion Conditionへの証拠対応表"
       - "missing evidence"
       - "not_completeの場合の次の最大安全package"
-    receipt: null
+    receipt:
+      result: done
+      decision: complete
+      full_outcome_complete: true
+      summary: "公開GitHub Pages HTTPS PWAをPixel 7相当幅で検証し、original outcomeと全Completion Conditionsを現在の実装、17件のVitest、6件の公開Playwright、成功したPages workflowへ対応付けた。GoalBuddy Judge agentは2回とも時間内に返らず、規則に従いPM fallbackで最終監査した。"
+      completion_evidence:
+        - "起動直後の単一入力欄、1操作保存、同画面継続、連続入力、保存取消は公開Playwrightの記録シナリオで合格"
+        - "再読み込みとブラウザプロファイル再起動後のIndexedDB保持は公開Playwrightで合格"
+        - "オフライン記録、編集、保管、検索、JSON書き出しはService Worker準備後の公開Playwrightで合格"
+        - "整理は古い順の1件表示、保管、完了、後回し、編集、確認付き削除と取消を実装し、VitestとPlaywrightで検証"
+        - "HTTP/HTTPS URL認識、外部リンク、NFKC小文字化部分一致、状態絞り込み、新しい順検索をVitestと公開Playwrightで検証"
+        - "keptメモの起動ごとの1件再発見と直前ID回避をrepositoryテストで検証"
+        - "version付きJSON書き出し、確認付き全置換復元、状態保持、不正JSON拒否と非破壊性、Dexie migrationを17件のVitestで検証"
+        - "axeでcriticalまたはserious違反0件。44px操作領域、focus-visible、dark mode、reduced motion、ラベルとskip linkを実装"
+        - "manifestは相対start_url/scope、192pxと512px PNG、SVGを含み、Pages base pathで10資産をprecacheして公開版で取得可能"
+        - "READMEは起動、テスト、公開URL、配信、バックアップ、平文JSON、端末ロックと端末内保存の境界を記載"
+        - "GitHub Actions run 27325742542がcommit 3497f07c916e6c1fcd93a7c85e0dcacf65e310cdでsuccess"
+        - "公開PWA https://ruon-north.github.io/adhd-quick-capture-memo/ はHTTP 200、HSTS、正しいtitleとmanifest URLを返し、6件の公開Playwrightが合格"
+      missing_evidence: []
+      residual_risk:
+        - "データは設計どおり単一ブラウザのIndexedDBにあり、ブラウザデータ削除や端末故障には手動JSONバックアップが必要"
+        - "PWA install UIの表示方法はブラウザ依存だが、installable manifest、Service Worker、HTTPS、標準PNG iconを公開環境で確認済み"
 
 checks:
-  dirty_fingerprint: "main-at-058894c-plus-readme-and-final-receipt"
+  dirty_fingerprint: "main-at-3497f07-plus-final-completion-receipt"
   environment:
     node: "v24.16.0"
     npm: "11.13.0 via C:\\Program Files\\nodejs\\npm.cmd"
@@ -488,7 +509,7 @@ checks:
     git_repository: true
     git_commit: "058894cd795e4eda63ee239508b3deb1c6076cf7"
     github_repository_slug: "ruon-north/adhd-quick-capture-memo"
-    deployment_status: "GitHub Actions run 27325559828 succeeded; public HTTPS PWA passed 6 Playwright scenarios"
+    deployment_status: "GitHub Actions run 27325742542 succeeded for 3497f07; public HTTPS PWA passed 6 Playwright scenarios"
   last_verification:
     result: passed
     task: T005
