@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.vite/
+*.local
+*.tsbuildinfo
+.npm-cache/
+.tools/
+playwright-report/
+test-results/
+docs/goals/**/.goalbuddy-board/

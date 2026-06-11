@@ -1,0 +1,467 @@
+# GoalBuddy v2 state.yaml
+# Board truth lives here. goal.md is the editable charter; notes/ holds long receipts only.
+
+version: 2
+
+goal:
+  title: "ADHD傾向のある人向け個人メモPWAを完成させる"
+  slug: "adhd-quick-capture-memo"
+  kind: existing_plan
+  tranche: "既存計画を検証し、4つの安全な縦断packageを実装・検証して、GitHub Pages配信と最終監査まで継続する"
+  status: active
+  oracle:
+    signal: "GitHub Pages上のHTTPS版PWAで、スマホ幅の即時記録、永続化、1件ずつの整理、検索、再発見、JSON復元、オフライン操作を完走でき、自動テストが合格する"
+    cadence: "after each Worker package and at final audit"
+    final_proof: "公開URLのwalkthrough、Vitest、Playwright、build、アクセシビリティ検査を対応付けた最終監査receipt"
+  intake:
+    original_request: "PlanモードでまとめたADHD傾向のある人向けメモアプリ計画を保ちながら、GoalBuddy用の目標、完了条件、作業ボードを作成する"
+    interpreted_outcome: "思いつきを即時記録し、圧倒されず整理し、忘れたメモを再発見できる個人用スマホPWAを実装してGitHub Pagesへ配信する"
+    input_shape: existing_plan
+    audience: "ADHD傾向があり、主に1台のスマホで思考、用事、URLを個人的に記録する単独ユーザー"
+    authority: approved
+    proof_type: test
+    completion_proof: "公開PWAのスマホ幅受け入れシナリオ、永続化、オフライン、JSON復元、自動テスト、アクセシビリティ検査がすべて合格する"
+    likely_misfire: "一般的な多機能メモアプリを作り、保存前の分類や大量の一覧で即時入力と低刺激性を損なう"
+    blind_spots_considered:
+      - "スマホでの起動障壁と片手操作"
+      - "未整理件数と複数カードが与える圧迫感"
+      - "端末故障やブラウザデータ削除による消失"
+      - "平文JSONバックアップのプライバシー"
+      - "オフライン利用とPWA更新"
+      - "GitHub Pagesのrepository base path"
+      - "復元失敗時の既存データ保護"
+      - "キーボード、スクリーンリーダー、動き軽減"
+    existing_plan_facts:
+      - "スマホ中心で、思考、用事、URLを分類せず記録する"
+      - "最優先課題は記録前に思いつきが消えること"
+      - "下部固定の記録、整理、探すの3タブ構成"
+      - "新規メモは受信箱へ入り、状態はinbox、kept、doneの3つだけ"
+      - "整理画面は古いメモを1件ずつ表示し、件数は通常隠す"
+      - "全文部分一致検索と、起動ごとの再発見カードを提供する"
+      - "端末内IndexedDB保存とJSON書き出し、全置換復元を提供する"
+      - "React、TypeScript、Vite、Dexie、Vite PWA plugin、Vitest、Playwrightを使用する"
+      - "GitHub PagesへPWAとして配信する"
+      - "WCAG 2.2 AAを目標とし、外部送信、解析、外部フォントを使用しない"
+      - "クラウド同期、通知、期限、タグ、AI、添付、独自暗号化はMVP外"
+
+rules:
+  pm_owns_state: true
+  one_active_task: true
+  max_write_workers: 1
+  no_implementation_without_worker_or_pm_task: true
+  no_completion_without_judge_or_pm_audit: true
+  planning_is_not_completion: true
+  queued_required_worker_blocks_completion: true
+  continuous_until_full_outcome: true
+  missing_input_or_credentials_do_not_stop_goal: true
+  preserve_and_validate_existing_plan: true
+  intake_misfire_must_be_audited: true
+  goal_pressure_requires_oracle: true
+  no_completion_on_weak_proof: true
+  slice_policy:
+    max_consecutive_tiny_tasks: 2
+    prefer_vertical_slices: true
+    judge_picks_largest_safe_slice: true
+    worker_completes_whole_slice: true
+
+agents:
+  scout: installed
+  worker: installed
+  judge: installed
+
+visual_board:
+  selected: local
+  local:
+    status: live
+    url: "http://goalbuddy.localhost:41737/adhd-quick-capture-memo/"
+    command: "npx goalbuddy board docs/goals/adhd-quick-capture-memo"
+
+active_task: T005
+
+tasks:
+  - id: T001
+    type: judge
+    assignee: Judge
+    status: done
+    reasoning_hint: high
+    objective: "既存計画を実装前に検証し、現在の空リポジトリと最新ツールチェーンに合わせた最初の安全な縦断packageを確定する"
+    inputs:
+      - "docs/goals/adhd-quick-capture-memo/goal.md"
+      - "docs/goals/adhd-quick-capture-memo/state.yaml"
+      - "現在の作業フォルダ"
+    constraints:
+      - "読み取り専用で、実装ファイルを作成しない"
+      - "既存計画の即時入力、低刺激、再発見、端末内完結という優先順位を保持する"
+      - "MVP non-goalsを実装範囲へ戻さない"
+      - "現在のパッケージ互換性、GitHub Pages base path、PWA、テスト構成のリスクを明示する"
+      - "最初のWorkerには実装可能なallowed_files、verify、stop_ifを返す"
+    expected_output:
+      - "計画の保持事項と必要な実装上の補足"
+      - "依存関係と検証コマンドの決定"
+      - "最初のWorker objective"
+      - "allowed_files"
+      - "verify"
+      - "stop_if"
+      - "後続taskへの変更が必要なら具体的なboard更新案"
+    receipt:
+      result: done
+      summary: "既存計画を承認。T002を最大の安全な最初の縦断packageとし、Node 24互換の依存固定、明示的npm.cmd、設定可能なPages base path、ブラウザ検証前のoffline断定禁止を決定した。"
+      decision: approved
+      full_outcome_complete: false
+      evidence:
+        - "実装ファイルと.gitはまだ存在せず、GoalBuddy control filesだけがある"
+        - "Node v24.16.0とC:\\Program Files\\nodejs\\npm.cmd v11.13.0を確認した"
+        - "PowerShell npm.ps1とnpx.ps1は壊れたユーザーprefixを参照するため使用しない"
+        - "GitHub repository slugは未確定のため、任意の非root base pathでbuild検証する"
+      missing_evidence:
+        - "package-lock.jsonで固定された互換依存関係"
+        - "最終GitHub repository identityとPages base path"
+        - "ブラウザでのservice worker、永続化、offline検証"
+
+  - id: T002
+    type: worker
+    assignee: Worker
+    status: done
+    reasoning_hint: medium
+    objective: "互換依存を固定したReact、TypeScript、Viteアプリを構築し、Dexie schema、本文だけの1操作保存、URL抽出、入力クリア、保存通知、取り消し、DB再open後の永続化、rootと任意の非root base pathでbuildできるinstallable precached PWA shellを実装する"
+    inputs:
+      - "T001 receipt"
+      - "goal.mdの記録、保存、PWA要件"
+    constraints:
+      - "保存前に分類、タイトル、タグを要求しない"
+      - "メモ内容を外部送信しない"
+      - "スマホ幅を第一のレイアウト基準にする"
+      - "後続packageが利用できるデータ層APIをUIから分離する"
+      - "整理、検索、再発見、バックアップはこのpackageで実装しない"
+      - "直接依存を正確なversionで固定し、Node 24 engineまたはpeer incompatibilityを残さない"
+    expected_output:
+      - "React、TypeScript、Viteプロジェクト"
+      - "Memoと設定のIndexedDB schema"
+      - "単一入力欄、1操作保存、連続入力、元に戻す"
+      - "本文中HTTP/HTTPS URLの認識"
+      - "初回読み込み後のオフライン起動基盤"
+      - "基盤とデータ層のfocused tests"
+    allowed_files:
+      - "package.json"
+      - "package-lock.json"
+      - ".gitignore"
+      - "index.html"
+      - "vite.config.*"
+      - "vitest.config.*"
+      - "tsconfig*.json"
+      - "eslint.config.*"
+      - "public/**"
+      - "src/**"
+      - "tests/**"
+    verify:
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' ls --depth=0"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' test -- --run"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build -- --base=/repo-name/"
+    stop_if:
+      - "選択した依存関係にNode 24 engineまたは未解決のpeer incompatibilityがある"
+      - "global Nodeまたはnpmの変更、runtime外部通信が必要になる"
+      - "非root buildのasset、manifest start_urlまたはscope、service worker URLが設定base pathの外を指す"
+      - "許可範囲と競合する予期しない実装ファイルが現れる"
+      - "同じverification failureが根拠ある修正後も2回続く"
+    receipt:
+      result: done
+      summary: "React/TypeScript/Vite/Dexieの基盤、本文だけの1操作保存、URL抽出、保存通知と取り消し、DB再open後の永続化、installable precached PWA shellを実装した。rootと非root base pathの両buildが成功した。"
+      changed_files:
+        - ".gitignore"
+        - "index.html"
+        - "package.json"
+        - "package-lock.json"
+        - "tsconfig.app.json"
+        - "tsconfig.json"
+        - "tsconfig.node.json"
+        - "vite.config.ts"
+        - "vitest.config.ts"
+        - "public/icon.svg"
+        - "src/App.tsx"
+        - "src/data/memoRepository.ts"
+        - "src/domain/memo.ts"
+        - "src/main.tsx"
+        - "src/styles.css"
+        - "src/vite-env.d.ts"
+        - "tests/App.test.tsx"
+        - "tests/memo.test.ts"
+        - "tests/memoRepository.test.ts"
+        - "tests/setup.ts"
+      commands:
+        - command: "C:\\Program Files\\nodejs\\npm.cmd install"
+          status: pass
+          output: "440 packages audited after security updates; package-lock.json generated"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd ls --depth=0"
+          status: pass
+          output: "All exact-pinned direct dependencies installed without peer errors"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd audit --audit-level=high"
+          status: pass
+          output: "0 vulnerabilities"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd test -- --run"
+          status: pass
+          output: "3 test files and 7 tests passed"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd run build"
+          status: pass
+          output: "Production build and PWA service worker generated"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd run build -- --base=/repo-name/"
+          status: pass
+          output: "Non-root base build passed with scoped assets and manifest"
+        - command: "Invoke-WebRequest http://127.0.0.1:5173"
+          status: pass
+          output: "HTTP 200 OK"
+      evidence:
+        - "Vite 8.0.16、Vitest 4.1.8、React 19.2.7、Dexie 4.4.3をexact-pinした"
+        - "npm auditで既知脆弱性0件"
+        - "非root buildのscript、stylesheet、manifestが/repo-name/配下を参照する"
+        - "manifestはstart_urlとscopeを相対指定しlang=jaを持つ"
+        - "PWA buildがservice workerと8件のprecache entryを生成する"
+      residual_risk:
+        - "Codex内ブラウザ制御はWindows CreateProcessAsUserW access deniedで接続できず、ブラウザ操作証拠はT005へ持ち越す"
+        - "GitHub repository slugと公開Pages URLは未確定"
+
+  - id: T003
+    type: worker
+    assignee: Worker
+    status: done
+    reasoning_hint: medium
+    objective: "1件ずつの整理、編集・削除、状態絞り込み検索、起動ごとの再発見を完成させ、主要な日常利用フローを通す"
+    inputs:
+      - "T002 receipt"
+      - "goal.mdの整理、探索、再発見要件"
+    constraints:
+      - "状態はinbox、kept、doneだけにする"
+      - "整理画面で同時に表示する受信箱メモは1件だけにする"
+      - "受信箱件数を通常は隠す"
+      - "再発見カードは1件だけ表示する"
+      - "検索はUnicode NFKC正規化と小文字化を行う"
+    expected_output:
+      - "下部固定の記録、整理、探す3タブ"
+      - "保管、完了、後回し、編集、確認付き削除、削除取り消し"
+      - "本文とURLの部分一致検索と状態絞り込み"
+      - "起動ごとのkeptメモ再発見と直前重複回避"
+      - "主要ロジックとUIフローのfocused tests"
+    allowed_files:
+      - "src/**"
+      - "tests/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+    verify:
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' test -- --run"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build"
+    stop_if:
+      - "T002のデータ層契約が未完了または不安定"
+      - "MVP外のタグ、期限、通知、フォルダが必要になる"
+      - "verificationが同じ原因で2回失敗する"
+    receipt:
+      result: done
+      summary: "記録、整理、探すの固定3タブ、古い受信箱メモの1件表示、保管・完了・後回し・編集・確認付き削除と取り消し、NFKC検索、状態絞り込み、起動ごとの再発見を実装した。独立レビューで保存取り消し、日本語UI、検索更新、URLリンク、後回しセッションの回帰も修正した。"
+      changed_files:
+        - "src/App.tsx"
+        - "src/styles.css"
+        - "src/domain/memo.ts"
+        - "src/data/memoRepository.ts"
+        - "tests/App.test.tsx"
+        - "tests/memo.test.ts"
+        - "tests/memoRepository.test.ts"
+      commands:
+        - command: "C:\\Program Files\\nodejs\\npm.cmd test -- --run"
+          status: pass
+          output: "3 test files and 10 tests passed"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd run build"
+          status: pass
+          output: "TypeScript and production PWA build passed; service worker generated"
+      evidence:
+        - "整理画面はlistInboxOldestの先頭1件だけを表示する"
+        - "後回しIDは整理タブへ入り直すとリセットされる"
+        - "検索はNFKCと小文字化を使い、本文とURLを対象にする"
+        - "再発見はsettingsに前回IDを保存し、候補があれば重複を避ける"
+        - "保存と削除の双方に取り消し操作がある"
+        - "UI文言は日本語で、URLは外部リンクとして表示する"
+
+  - id: T004
+    type: worker
+    assignee: Worker
+    status: done
+    reasoning_hint: medium
+    objective: "JSONバックアップと非破壊の全置換復元、設定、プライバシー説明、低刺激アクセシビリティを完成させる"
+    inputs:
+      - "T003 receipt"
+      - "goal.mdの保存、アクセシビリティ、プライバシー要件"
+    constraints:
+      - "復元前にschemaと件数を検証し、確認なしに既存データを置換しない"
+      - "不正なJSONまたは非対応schemaで既存データを変更しない"
+      - "バックアップが平文であることを明示する"
+      - "外部フォント、解析、URLプレビュー通信を導入しない"
+      - "色だけで状態を伝えない"
+    expected_output:
+      - "schema version付きJSON export"
+      - "検証、件数表示、確認、transactional replacementを伴うimport"
+      - "設定、PWA導入案内、プライバシー境界の表示"
+      - "44px以上の操作領域、focus表示、dark mode、reduced motion、screen reader labels"
+      - "バックアップとアクセシビリティのfocused tests"
+    allowed_files:
+      - "src/**"
+      - "tests/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+    verify:
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' test -- --run"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build"
+    stop_if:
+      - "復元処理が既存データを保護するtransaction境界を持てない"
+      - "アクセシビリティ対応が既存の即時入力フローを壊す"
+      - "verificationが同じ原因で2回失敗する"
+    receipt:
+      result: done
+      summary: "schema version付きJSON書き出し、厳格な事前検証、確認後のtransactional全置換復元、設定画面、平文バックアップと端末ロックの説明、PWA導入案内、skip linkとreduced motion対応を実装した。"
+      changed_files:
+        - "src/App.tsx"
+        - "src/styles.css"
+        - "src/domain/backup.ts"
+        - "src/data/memoRepository.ts"
+        - "tests/App.test.tsx"
+        - "tests/backup.test.ts"
+        - "tests/memoRepository.test.ts"
+      commands:
+        - command: "C:\\Program Files\\nodejs\\npm.cmd test -- --run"
+          status: pass
+          output: "4 test files and 15 tests passed"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd run build"
+          status: pass
+          output: "TypeScript and production PWA build passed"
+      evidence:
+        - "不正JSON、非対応schema、不正memo、重複IDを復元前に拒否する"
+        - "replaceFromBackupはmemosとsettingsを同一Dexie transactionでclearとbulkAddする"
+        - "復元前に対象件数と全置換を明示して確認を要求する"
+        - "設定画面に外部送信なし、IndexedDB、端末ロック、平文JSONを明示する"
+        - "44px相当の操作領域、focus-visible、dark mode、reduced motion、skip linkを実装した"
+
+  - id: T005
+    type: worker
+    assignee: Worker
+    status: active
+    reasoning_hint: medium
+    objective: "自動受け入れテスト、利用文書、GitHub ActionsとPages配信を整え、公開PWAでoracleを実行可能にする"
+    inputs:
+      - "T004 receipt"
+      - "goal.mdのCompletion Conditions"
+      - "GitHub repository and Pages settings when available"
+    constraints:
+      - "GitHub Pagesのrepository base pathで資産とルーティングを検証する"
+      - "スマホ相当viewportとオフライン状態をテストする"
+      - "資格情報やPages権限が不足しても、ローカルテストとworkflow作成を継続する"
+      - "公開配信だけが不可能な場合は、その部分だけをblocked receiptにする"
+    expected_output:
+      - "Vitestによるデータ、検索、再発見、バックアップのcoverage"
+      - "Playwrightによる3画面、永続化、オフライン、キーボード操作のシナリオ"
+      - "重大な違反を検出する自動アクセシビリティ検査"
+      - "READMEの起動、テスト、配信、バックアップ、プライバシー説明"
+      - "test、build、GitHub Pages deploy workflow"
+      - "公開URLまたは権限不足を示す明確なreceipt"
+    allowed_files:
+      - ".github/workflows/**"
+      - "README.md"
+      - "playwright.config.*"
+      - "vite.config.*"
+      - "src/**"
+      - "tests/**"
+      - "e2e/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+    verify:
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' test -- --run"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run test:e2e"
+    stop_if:
+      - "実配信に必要なGitHub権限またはrepository情報がなく、公開確認以外のローカル作業がすべて完了した"
+      - "GitHub Pages base pathでPWA資産を解決できない"
+      - "verificationが同じ原因で2回失敗する"
+    receipt: null
+
+  - id: T006
+    type: pm
+    assignee: PM
+    status: done
+    reasoning_hint: medium
+    objective: "GitHub公開操作の明示承認と認証を取得し、T005を再開してrepository作成、push、Pages配信、公開URL walkthroughを完了する"
+    inputs:
+      - "T005 blocked receipt"
+      - "GitHub account ruon-north"
+      - "Planned repository ruon-north/adhd-quick-capture-memo"
+    constraints:
+      - "公開repository作成、push、Pages権限変更の直前に明示承認を得る"
+      - "認証情報やトークンをチャットまたはreceiptへ記録しない"
+      - "承認後はT005をactiveへ戻し、T006をdoneにして公開工程を継続する"
+    expected_output:
+      - "公開操作の承認"
+      - "利用可能なGitHub認証経路"
+      - "再開されたT005"
+    receipt:
+      result: done
+      summary: "ユーザーがruon-north/adhd-quick-capture-memoの公開repository作成、commit、push、Pages配信を明示承認した。"
+      decision: approved
+      approved_target: "https://github.com/ruon-north/adhd-quick-capture-memo"
+
+  - id: T999
+    type: pm
+    assignee: PM
+    status: done
+    reasoning_hint: high
+    objective: "全receiptと最新検証をoriginal outcomeとoracleへ対応付け、MVP全体が本当に完成したか最終監査する"
+    inputs:
+      - "All done and blocked task receipts"
+      - "最新のVitest、Playwright、build、accessibility結果"
+      - "GitHub Pages公開URLとスマホ幅walkthrough、または配信blocker"
+      - "Current diff"
+      - "goal.md Completion Conditions"
+    constraints:
+      - "実装しない"
+      - "必要なWorker taskがqueuedまたはactiveなら完了を拒否する"
+      - "ローカルで安全に進められる作業が残るなら完了を拒否する"
+      - "一般的な多機能メモアプリ化で即時入力と低刺激性が損なわれていないか監査する"
+      - "公開PWAの証拠が必須であり、権限不足ならgoal全体を安易にdoneにしない"
+    expected_output:
+      - "complete | not_complete"
+      - "full_outcome_complete: true | false"
+      - "各Completion Conditionへの証拠対応表"
+      - "missing evidence"
+      - "not_completeの場合の次の最大安全package"
+    receipt:
+      result: done
+      decision: not_complete
+      full_outcome_complete: false
+      summary: "ローカルのMVP要件と自動検証は満たすが、公開GitHub Pages HTTPS URLと公開環境walkthroughが存在しないためoriginal outcomeは未完了。GoalBuddy Judge agentは時間内に返らず、PM fallbackで要件別監査を実施した。"
+      evidence:
+        - "即時入力、取消、整理、検索、再発見、バックアップ、アクセシビリティ、プライバシー、PWA base pathはsource、Vitest 17件、Playwright 6件、build、auditで証明済み"
+        - "GitHub Actions workflowはテスト後にPages artifactをdeployし、repository名をVite baseへ渡す"
+        - "ローカルrepositoryは初期化済みだがコミット未作成で、GitHub remoteと公開URLはない"
+      missing_evidence:
+        - "ruon-north/adhd-quick-capture-memoの公開repository"
+        - "main branchへのcommitとpush"
+        - "成功したGitHub Actions Pages deployment"
+        - "公開HTTPS URLでのスマホ幅PWA walkthrough"
+      next_task: T006
+
+checks:
+  dirty_fingerprint: "initial-git-repository-with-uncommitted-application"
+  environment:
+    node: "v24.16.0"
+    npm: "11.13.0 via C:\\Program Files\\nodejs\\npm.cmd"
+    powershell_npm_shim: "broken-user-prefix-do-not-use"
+    git_repository: true
+    git_commit: "none; sandbox requires elevated write approval for .git"
+    github_repository_slug: "planned: ruon-north/adhd-quick-capture-memo"
+    deployment_status: "local implementation and Pages-base verification complete; public repository and URL pending"
+  last_verification:
+    result: passed
+    task: T005
+    commands:
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' test -- --run"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' run build"
+      - "$env:PLAYWRIGHT_BROWSERS_PATH='0'; & 'C:\\Program Files\\nodejs\\npm.cmd' run test:e2e"
+      - "$env:PLAYWRIGHT_BROWSERS_PATH='0'; & 'C:\\Program Files\\nodejs\\npm.cmd' run test:e2e:pages"
+      - "& 'C:\\Program Files\\nodejs\\npm.cmd' audit --audit-level=high"
