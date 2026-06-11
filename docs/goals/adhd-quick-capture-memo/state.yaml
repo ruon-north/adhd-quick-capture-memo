@@ -76,7 +76,7 @@ visual_board:
     url: "http://goalbuddy.localhost:41737/adhd-quick-capture-memo/"
     command: "npx goalbuddy board docs/goals/adhd-quick-capture-memo"
 
-active_task: T005
+active_task: T999
 
 tasks:
   - id: T001
@@ -342,7 +342,7 @@ tasks:
   - id: T005
     type: worker
     assignee: Worker
-    status: active
+    status: done
     reasoning_hint: medium
     objective: "自動受け入れテスト、利用文書、GitHub ActionsとPages配信を整え、公開PWAでoracleを実行可能にする"
     inputs:
@@ -363,9 +363,12 @@ tasks:
       - "公開URLまたは権限不足を示す明確なreceipt"
     allowed_files:
       - ".github/workflows/**"
+      - ".gitignore"
       - "README.md"
+      - "index.html"
       - "playwright.config.*"
       - "vite.config.*"
+      - "vitest.config.*"
       - "src/**"
       - "tests/**"
       - "e2e/**"
@@ -380,7 +383,51 @@ tasks:
       - "実配信に必要なGitHub権限またはrepository情報がなく、公開確認以外のローカル作業がすべて完了した"
       - "GitHub Pages base pathでPWA資産を解決できない"
       - "verificationが同じ原因で2回失敗する"
-    receipt: null
+    receipt:
+      result: done
+      summary: "自動テスト、利用文書、最新GitHub Pages workflowを整え、公開repositoryを作成してmainへpushし、GitHub Actions成功後の公開HTTPS PWAでoracleを完走した。"
+      changed_files:
+        - ".github/workflows/pages.yml"
+        - ".gitignore"
+        - "README.md"
+        - "e2e/app.spec.ts"
+        - "e2e/run.mjs"
+        - "index.html"
+        - "package.json"
+        - "package-lock.json"
+        - "playwright.config.ts"
+        - "public/icon-192.png"
+        - "public/icon-512.png"
+        - "src/data/memoRepository.ts"
+        - "tests/App.test.tsx"
+        - "tests/memoRepository.test.ts"
+        - "vite.config.ts"
+        - "vitest.config.ts"
+      commands:
+        - command: "C:\\Program Files\\nodejs\\npm.cmd test -- --run"
+          status: pass
+          output: "4 test files and 17 tests passed"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd run build"
+          status: pass
+          output: "TypeScript and production PWA build passed; service worker generated"
+        - command: "PLAYWRIGHT_BROWSERS_PATH=0 C:\\Program Files\\nodejs\\npm.cmd run test:e2e:pages"
+          status: pass
+          output: "6 browser scenarios passed at /adhd-quick-capture-memo/"
+        - command: "C:\\Program Files\\nodejs\\npm.cmd audit --audit-level=high"
+          status: pass
+          output: "0 vulnerabilities"
+        - command: "GitHub Actions run 27325559828"
+          status: pass
+          output: "Test and deploy Pages completed successfully for commit 058894cd795e4eda63ee239508b3deb1c6076cf7"
+        - command: "PLAYWRIGHT_BASE_URL=https://ruon-north.github.io/adhd-quick-capture-memo/ playwright test"
+          status: pass
+          output: "6 public HTTPS browser scenarios passed in Pixel 7 viewport"
+      evidence:
+        - "公開repository: https://github.com/ruon-north/adhd-quick-capture-memo"
+        - "Pages workflow: https://github.com/ruon-north/adhd-quick-capture-memo/actions/runs/27325559828"
+        - "公開PWA: https://ruon-north.github.io/adhd-quick-capture-memo/"
+        - "公開URLはHTTP 200、text/html、HSTS max-age=31556952、title=いまメモを返した"
+        - "公開版で即時記録、保存取消、整理、NFKC検索、全置換復元、オフライン主要操作とJSON出力、キーボード保存、ブラウザプロファイル再起動後のIndexedDB保持、axe重大違反0、installable manifestを検証した"
 
   - id: T006
     type: pm
@@ -407,9 +454,9 @@ tasks:
       approved_target: "https://github.com/ruon-north/adhd-quick-capture-memo"
 
   - id: T999
-    type: pm
-    assignee: PM
-    status: done
+    type: judge
+    assignee: Judge
+    status: active
     reasoning_hint: high
     objective: "全receiptと最新検証をoriginal outcomeとoracleへ対応付け、MVP全体が本当に完成したか最終監査する"
     inputs:
@@ -430,32 +477,18 @@ tasks:
       - "各Completion Conditionへの証拠対応表"
       - "missing evidence"
       - "not_completeの場合の次の最大安全package"
-    receipt:
-      result: done
-      decision: not_complete
-      full_outcome_complete: false
-      summary: "ローカルのMVP要件と自動検証は満たすが、公開GitHub Pages HTTPS URLと公開環境walkthroughが存在しないためoriginal outcomeは未完了。GoalBuddy Judge agentは時間内に返らず、PM fallbackで要件別監査を実施した。"
-      evidence:
-        - "即時入力、取消、整理、検索、再発見、バックアップ、アクセシビリティ、プライバシー、PWA base pathはsource、Vitest 17件、Playwright 6件、build、auditで証明済み"
-        - "GitHub Actions workflowはテスト後にPages artifactをdeployし、repository名をVite baseへ渡す"
-        - "ローカルrepositoryは初期化済みだがコミット未作成で、GitHub remoteと公開URLはない"
-      missing_evidence:
-        - "ruon-north/adhd-quick-capture-memoの公開repository"
-        - "main branchへのcommitとpush"
-        - "成功したGitHub Actions Pages deployment"
-        - "公開HTTPS URLでのスマホ幅PWA walkthrough"
-      next_task: T006
+    receipt: null
 
 checks:
-  dirty_fingerprint: "initial-git-repository-with-uncommitted-application"
+  dirty_fingerprint: "main-at-058894c-plus-readme-and-final-receipt"
   environment:
     node: "v24.16.0"
     npm: "11.13.0 via C:\\Program Files\\nodejs\\npm.cmd"
     powershell_npm_shim: "broken-user-prefix-do-not-use"
     git_repository: true
-    git_commit: "none; sandbox requires elevated write approval for .git"
-    github_repository_slug: "planned: ruon-north/adhd-quick-capture-memo"
-    deployment_status: "local implementation and Pages-base verification complete; public repository and URL pending"
+    git_commit: "058894cd795e4eda63ee239508b3deb1c6076cf7"
+    github_repository_slug: "ruon-north/adhd-quick-capture-memo"
+    deployment_status: "GitHub Actions run 27325559828 succeeded; public HTTPS PWA passed 6 Playwright scenarios"
   last_verification:
     result: passed
     task: T005

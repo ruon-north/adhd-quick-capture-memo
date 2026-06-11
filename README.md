@@ -2,6 +2,8 @@
 
 ADHD傾向のある人が、思いつきを失う前にスマホで記録し、あとから1件ずつ整理できる個人用PWAです。メモは外部へ送信せず、ブラウザのIndexedDBへ保存します。
 
+公開版: https://ruon-north.github.io/adhd-quick-capture-memo/
+
 ## 起動
 
 Node.js 24以上を使用します。このWindows環境ではPowerShellの`npm` shimを避け、明示的に`npm.cmd`を実行します。
